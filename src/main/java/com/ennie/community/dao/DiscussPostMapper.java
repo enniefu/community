@@ -21,6 +21,18 @@ public interface DiscussPostMapper {
 
 
 
+    //增加帖子
+    int insertDiscussPost(DiscussPost discussPost);
+
+
+
+
+    //根据id查看帖子详情
+    DiscussPost selectDiscussPostById(int id);
+
+
+    //更新帖子的评论数量字段
+    int updateCommentCount(int id, int commentCount);
 
 
 

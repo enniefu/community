@@ -33,12 +33,6 @@ public class HomeController {
         page.setRows(discussPostService.findDiscussPostRows(0));
         page.setPath("/index");
 
-
-        System.out.println(page.getCurrent());
-        System.out.println(page.getLimit());
-
-        System.out.println("page.getOffset()     "+page.getOffset());
-        System.out.println("page.getLimit()     "+page.getLimit());
         List<DiscussPost> list = discussPostService.findDiscussPosts(0,page.getOffset(),page.getLimit());
         List<Map<String,Object>> discussPosts = new ArrayList<>();
         if(list != null){
@@ -58,5 +52,12 @@ public class HomeController {
 
         return "/index";
     }
+
+
+    @RequestMapping(path = "/error", method = RequestMethod.GET)
+    public String getErrorPage(){
+        return "/error/500";
+    }
+
 
 }
