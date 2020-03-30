@@ -10,7 +10,12 @@ import com.ennie.community.entity.User;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
 
@@ -33,6 +38,8 @@ public class UserService implements CommunityConstant {
 
     @Autowired
     LoginTicketMapper loginTicketMapper;
+
+
 
     @Value("${community.path.domain}")
     public String domain;
@@ -226,7 +233,6 @@ public class UserService implements CommunityConstant {
     public User findUserByName(String username){
         return userMapper.selectByName(username);
     }
-
 
 
 

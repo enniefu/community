@@ -1,9 +1,11 @@
 package com.ennie.community.controller;
 
+import com.ennie.community.Util.CommunityConstant;
 import com.ennie.community.entity.DiscussPost;
 import com.ennie.community.entity.Page;
 import com.ennie.community.entity.User;
 import com.ennie.community.service.DiscussPostService;
+import com.ennie.community.service.LikeService;
 import com.ennie.community.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,13 +19,16 @@ import java.util.List;
 import java.util.Map;
 
 @Controller
-public class HomeController {
+public class HomeController implements CommunityConstant {
 
     @Autowired
     DiscussPostService discussPostService;
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    LikeService likeService;
 
     @RequestMapping(path = "/index", method = RequestMethod.GET)
     public String getIndexPage(Model model, Page page){
@@ -43,6 +48,13 @@ public class HomeController {
                 User user = userService.findUserById(post.getUserId());
                 System.out.println(user);
                 map.put("user",user);
+
+                long likeCount = likeService.findEntityLikeCount(ENTITY_TYPE_POST,post.getId());
+
+                map.put("likeCount",likeCount);
+
+
+
                 discussPosts.add(map);
             }
         }

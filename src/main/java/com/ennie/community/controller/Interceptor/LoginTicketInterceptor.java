@@ -41,7 +41,6 @@ public class LoginTicketInterceptor implements HandlerInterceptor {
                 //因为有线程安全问题。所以把用户数据存放在threadLocal中，代替session
                 hostHolder.setUser(user);
 
-                System.out.println("SAVE USER SUCCESSFULLY :"+user.toString());
             }
         }
         return true;
