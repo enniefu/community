@@ -5,6 +5,7 @@ import com.ennie.community.entity.LoginTicket;
 import org.apache.ibatis.annotations.*;
 
 @Mapper
+@Deprecated
 public interface LoginTicketMapper {
     //插入
     @Insert({

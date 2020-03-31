@@ -19,17 +19,17 @@ public class DiscussPostService {
     @Autowired
     SensitiveFilter sensitiveFilter;
 
-    //返回所有评论
+    //返回所有帖子
     public List<DiscussPost> findDiscussPosts(int userId, int offset, int limit){
         return discussPostMapper.selectDiscussPosts(userId,offset,limit);
     }
 
-    //返回评论条数
+    //返回帖子条数
     public int findDiscussPostRows(@Param("userId")int userId){
         return discussPostMapper.selectDiscussPostRows(userId);
     }
 
-    //增加评论
+    //增加帖子
     public int addDiscussPost(DiscussPost discussPost){
         //scripts处理
         discussPost.setTitle(HtmlUtils.htmlEscape(discussPost.getTitle()));

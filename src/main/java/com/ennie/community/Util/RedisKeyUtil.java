@@ -14,6 +14,12 @@ public class RedisKeyUtil {
     //验证码
     private static final String PREFIX_KAPTCHA = "kaptcha";
 
+    //登陆凭证
+    private static final String PREFIX_TICKET = "ticket";
+
+    //用户缓存
+    private static final String PREFIX_USER = "user";
+
 
     //某个帖子或者评论的赞
     //like:entity:entityType:entityId   --->set(username)
@@ -44,6 +50,15 @@ public class RedisKeyUtil {
     //传入一个用户的临时凭证
     public static String getKaptchaKey(String owner){
         return PREFIX_KAPTCHA+SPLIT+owner;
+    }
+
+    //登陆凭证
+    public static String getTicketKey(String ticket){
+        return PREFIX_TICKET+SPLIT+ticket;
+    }
+
+    public static String getUserKey(int userId){
+        return PREFIX_USER+SPLIT+userId;
     }
 
 }
