@@ -3,8 +3,10 @@ package com.ennie.community.controller;
 import com.ennie.community.Util.CommunityConstant;
 import com.ennie.community.Util.CommunityUtil;
 import com.ennie.community.Util.HostHolder;
+import com.ennie.community.entity.Event;
 import com.ennie.community.entity.Page;
 import com.ennie.community.entity.User;
+import com.ennie.community.event.EventProducer;
 import com.ennie.community.service.FollowService;
 import com.ennie.community.service.UserService;
 import com.sun.org.apache.bcel.internal.generic.RETURN;
@@ -32,11 +34,25 @@ public class FollowController implements CommunityConstant{
     @Autowired
     HostHolder hostHolder;
 
+    @Autowired
+    EventProducer eventProducer;
+
     @RequestMapping(path = "/follow", method = RequestMethod.POST)
     @ResponseBody
     public String follow(int entityType, int entityId){
         User user = hostHolder.getUser();
         followService.follow(user.getId(),entityType,entityId);
+
+        //触发关注事件
+        Event event = new Event();
+        event.setTopic(TOPIC_FOLLOW)
+                .setUserId(hostHolder.getUser().getId())
+                .setEntityType(entityType)
+                .setEntityId(entityId)
+                .setEntityUserId(entityId);
+
+        eventProducer.fireEvent(event);
+
         return CommunityUtil.getJsonString(0,"已关注！");
     }
 
@@ -47,8 +63,6 @@ public class FollowController implements CommunityConstant{
         followService.unfollow(user.getId(),entityType,entityId);
         return CommunityUtil.getJsonString(0,"已取消关注！");
     }
-
-
 
     //访问关注列表
     @RequestMapping(path = "/followees/{userId}", method = RequestMethod.GET)
@@ -76,7 +90,6 @@ public class FollowController implements CommunityConstant{
 
     }
 
-
     //访问粉丝列表
     @RequestMapping(path = "/followers/{userId}", method = RequestMethod.GET)
     public String getFollowers(@PathVariable("userId") int userId, Model model, Page page){
@@ -103,8 +116,6 @@ public class FollowController implements CommunityConstant{
         return "/site/follower";
 
     }
-
-
 
     //一个私有方法，用来判断当前登陆用户是否关注某用户
     private boolean hasFollowed (int userId){
